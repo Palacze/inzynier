@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>rlogger-client</artifactId>
+		<groupId>com.zunit.rlogger</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.zunit.rlogger.rlogger-client</groupId>
+	<artifactId>rlogger-client-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<name>Remote Logger EAR module</name>
+	
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+            <properties>
+			</properties>
+			<dependencies>
+		
+				<!-- BIG web module -->
+				<dependency>
+					<groupId>com.zunit.rlogger.rlogger-client</groupId>
+					<artifactId>rlogger-client-web</artifactId>
+					<type>war</type>
+				</dependency>
+		
+				<!-- BIG services module -->
+				<dependency>
+					<groupId>com.zunit.rlogger.rlogger-client</groupId>
+					<artifactId>rlogger-client-services-impl</artifactId>
+					<type>ejb</type>
+				</dependency>
+                
+                <!-- BIG dao module -->
+                <dependency>
+                    <groupId>com.zunit.rlogger.rlogger-model-dao</groupId>
+                    <artifactId>rlogger-model-dao</artifactId>
+                    <type>ejb</type>
+				</dependency>
+                
+                
+			</dependencies>
+
+			<build>
+				<finalName>rlogger-client</finalName>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-ear-plugin</artifactId>
+						<configuration>
+							<!-- Tell Maven we are using Java EE 6 -->
+							<version>6</version>
+							<defaultLibBundleDir>lib</defaultLibBundleDir>
+							<env-entries>
+								<env-entry>
+									<description>app datasource jndi</description>
+									<env-entry-name>java:app/env/AppDataSource</env-entry-name>
+									<env-entry-type>java.lang.String</env-entry-type>
+									<env-entry-value>java:jboss/datasources/BIG-CLIENT</env-entry-value>
+								</env-entry>
+                            </env-entries>
+							<modules>
+								<webModule>
+									<groupId>com.zunit.rlogger.rlogger-client</groupId>
+									<artifactId>rlogger-client-web</artifactId>
+									<contextRoot>${context.root.rlogger.client.web}</contextRoot>
+								</webModule>
+							</modules>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+						only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.apache.maven.plugins
+												</groupId>
+												<artifactId>
+													maven-ear-plugin
+												</artifactId>
+												<versionRange>
+													[2.6,)
+												</versionRange>
+												<goals>
+													<goal>
+														generate-application-xml
+													</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+    
+	</profiles>
+
+</project>

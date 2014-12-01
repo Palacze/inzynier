@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="MM" id="1">
+    	<createTable schemaName="${db.rlogger.schema.name}" tableName="users" tablespace="${db.rlogger.tablespace.tables}">
+			<column autoIncrement="true" name="user_id" type="bigserial">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="users_pk"/>
+			</column>
+			<column name="user_name" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="value" type="VARCHAR(511)">
+				<constraints nullable="false"/>
+			</column>
+			<column defaultValueBoolean="false" name="system" type="bool">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="VARCHAR(255)"/>
+            <column defaultValueBoolean="false" name="hidden" type="bool">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+    </changeSet>
+</databaseChangeLog>

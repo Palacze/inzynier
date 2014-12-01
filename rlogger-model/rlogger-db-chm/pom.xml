@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+	<groupId>com.zunit.rlogger.rlogger-model</groupId>
+	<artifactId>rlogger-db-chm</artifactId>
+	<version>1.0.0</version>
+	<name>Remote Logger DB Change Management module</name>
+
+
+	<properties>
+		<version.org.postgresql.jdbc>9.2-1002-jdbc4</version.org.postgresql.jdbc>
+
+		<!-- PostgreSQL admin-->
+		<db.admin.name>postgres</db.admin.name>
+		<db.admin.pass>postgres</db.admin.pass>
+		<!-- Minizet DB admin-->
+		<db.rlogger.user.name>rlogger</db.rlogger.user.name>
+		<db.rlogger.user.pass>rlogger</db.rlogger.user.pass>
+		<db.rlogger.host>localhost</db.rlogger.host>
+		<db.rlogger.port>5432</db.rlogger.port>
+		<db.rlogger.name>rlogger</db.rlogger.name>
+
+		<db.rlogger.client.user.name>rloggerclient</db.rlogger.client.user.name>
+		<db.rlogger.client.user.pass>rloggerclient</db.rlogger.client.user.pass>
+		<db.rlogger.management.user.name>rloggeradmin</db.rlogger.management.user.name>
+		<db.rlogger.management.user.pass>rloggeradmin</db.rlogger.management.user.pass>
+		<db.rlogger.auth.user.name>rloggerauth</db.rlogger.auth.user.name>
+		<db.rlogger.auth.user.pass>rloggerauth</db.rlogger.auth.user.pass>	
+        	
+		<db.rlogger.schema.name>rlogger</db.rlogger.schema.name>
+		<db.rlogger.tablespace.tables>pg_default</db.rlogger.tablespace.tables>
+		<db.rlogger.tablespace.indexes>pg_default</db.rlogger.tablespace.indexes>
+
+		<liquibase.contexts></liquibase.contexts>
+
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jumpmind.symmetric.jdbc</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${version.org.postgresql.jdbc}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>com.googlecode</groupId>
+				<artifactId>maven-db-plugin</artifactId>
+				<version>1.3</version>
+				<configuration>
+					<adminDbConnectionSettings>
+						<jdbcDriver>org.postgresql.Driver</jdbcDriver>
+						<jdbcUrl>jdbc:postgresql://${db.rlogger.host}:${db.rlogger.port}/</jdbcUrl>
+						<userName>${db.admin.name}</userName>
+						<password>${db.admin.pass}</password>
+					</adminDbConnectionSettings>
+
+					<appDbConnectionSettings>
+						<jdbcDriver>org.postgresql.Driver</jdbcDriver>
+						<jdbcUrl>jdbc:postgresql://${db.rlogger.host}:${db.rlogger.port}/${db.rlogger.name}</jdbcUrl>
+						<userName>${db.rlogger.user.name}</userName>
+						<password>${db.rlogger.user.pass}</password>
+					</appDbConnectionSettings>
+
+					<sqlDelimiter> #--;</sqlDelimiter>
+
+					<dbCreateStatements>
+						CREATE USER "${db.rlogger.user.name}" LOGIN
+						ENCRYPTED PASSWORD '${db.rlogger.user.pass}' VALID UNTIL 'infinity';
+						#--;
+						CREATE DATABASE "${db.rlogger.name}" WITH OWNER =
+						"${db.rlogger.user.name}" ENCODING = 'UTF8' CONNECTION LIMIT = 100;
+						#--;
+						GRANT ALL ON DATABASE "${db.rlogger.name}" TO "${db.rlogger.user.name}";
+						#--;
+						CREATE USER "${db.rlogger.client.user.name}" LOGIN
+						ENCRYPTED PASSWORD '${db.rlogger.client.user.pass}' VALID UNTIL 'infinity';
+						#--;
+						CREATE USER "${db.rlogger.management.user.name}" LOGIN
+						ENCRYPTED PASSWORD '${db.rlogger.management.user.pass}' VALID UNTIL 'infinity';
+						#--;
+						CREATE USER "${db.rlogger.auth.user.name}" LOGIN
+						ENCRYPTED PASSWORD '${db.rlogger.auth.user.pass}' VALID UNTIL 'infinity';
+						#--;
+						ALTER ROLE "${db.rlogger.user.name}" SET search_path TO "${db.rlogger.schema.name}"; 
+						#--;
+						ALTER ROLE "${db.rlogger.client.user.name}" SET search_path TO "${db.rlogger.schema.name}"; 
+						#--;	
+					</dbCreateStatements>
+					<dbDropStatements>
+						DROP DATABASE "${db.rlogger.name}"; #--;
+						DROP USER "${db.rlogger.user.name}"; #--;
+						DROP USER "${db.rlogger.client.user.name}"; #--;
+                        DROP USER "${db.rlogger.management.user.name}"; #--;
+						DROP USER "${db.rlogger.auth.user.name}"; #--;
+					</dbDropStatements>
+					<dbSchemaScriptsDirectory><param>target/classes/com/zunit/db/schema</param></dbSchemaScriptsDirectory>
+					
+					
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.jumpmind.symmetric.jdbc</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${version.org.postgresql.jdbc}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>2.0.5</version>
+
+
+				<configuration>
+					<changeLogFile>target/classes/com/zunit/db/changelog/rlogger.db.changelog.master.full.xml</changeLogFile>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://${db.rlogger.host}:${db.rlogger.port}/${db.rlogger.name}</url>
+					<username>${db.rlogger.user.name}</username>
+					<password>${db.rlogger.user.pass}</password>
+					<defaultSchemaName>${db.rlogger.schema.name}</defaultSchemaName>
+					<contexts>${liquibase.contexts}</contexts>
+					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+				</configuration>
+
+
+			</plugin>
+			
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.3.Final</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
+		
+	</build>
+
+
+
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven-db-plugin-repo</id>
+			<name>maven db plugin repository</name>
+			<url>http://maven-db-plugin.googlecode.com/svn/maven/repo</url>
+			<layout>default</layout>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

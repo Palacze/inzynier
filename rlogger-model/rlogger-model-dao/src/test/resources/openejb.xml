@@ -1,0 +1,10 @@
+<openejb>
+<Resource id="BIG-CLIENT" type="DataSource">
+	JdbcDriver org.postgresql.Driver
+	JdbcUrl jdbc:postgresql://localhost:5432/zunit-big
+	UserName zunit-big
+	Password
+	JtaManaged true
+</Resource>
+
+</openejb>
