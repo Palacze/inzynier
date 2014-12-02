@@ -16,10 +16,17 @@
 
     <dependencies>
         
+        <dependency>
+	<groupId>org.hibernate.javax.persistence</groupId>
+	<artifactId>hibernate-jpa-2.0-api</artifactId>
+	<version>1.0.1.Final</version>
+        
+</dependency>
+
     </dependencies>
 	
 	<properties>
-		<rlogger.pu.default_schema>minizetrlogger</rlogger.pu.default_schema>
+		<rlogger.pu.default_schema>rlogger</rlogger.pu.default_schema>
 	</properties>
 	
 	<build>

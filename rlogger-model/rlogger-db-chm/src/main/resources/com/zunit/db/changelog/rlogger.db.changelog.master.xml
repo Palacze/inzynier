@@ -14,16 +14,13 @@
 			<column name="user_name" type="VARCHAR(255)">
 				<constraints nullable="false"/>
 			</column>
-			<column name="value" type="VARCHAR(511)">
+			<column name="key" type="VARCHAR(511)">
 				<constraints nullable="false"/>
 			</column>
-			<column defaultValueBoolean="false" name="system" type="bool">
+			<column defaultValueBoolean="false" name="encrypy" type="bool">
 				<constraints nullable="false"/>
 			</column>
-			<column name="description" type="VARCHAR(255)"/>
-            <column defaultValueBoolean="false" name="hidden" type="bool">
-				<constraints nullable="false"/>
-			</column>
+			<column name="user_data" type="VARCHAR(255)"/>            
 		</createTable>
     </changeSet>
 </databaseChangeLog>
