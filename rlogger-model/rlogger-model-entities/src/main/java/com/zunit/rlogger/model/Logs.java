@@ -28,6 +28,7 @@ public class Logs implements Serializable{
     
     private long logId;
     private Users user;
+    private String logVersion;
     private Date logDate;
     private String logTxt;
     private LogType logType;
@@ -75,6 +76,15 @@ public class Logs implements Serializable{
     }
     public void setLogType(LogType logType) {
         this.logType = logType;
+    }
+
+    @Column(name = "log_version", length = 255)
+    public String getLogVersion() {
+        return logVersion;
+    }
+
+    public void setLogVersion(String logVersion) {
+        this.logVersion = logVersion;
     }
     
 }
