@@ -17,7 +17,7 @@
             <column name="key" type="VARCHAR(511)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueBoolean="false" name="encrypy" type="bool">
+            <column defaultValueBoolean="false" name="encrypt" type="bool">
                 <constraints nullable="false"/>
             </column>
             <column name="user_data" type="VARCHAR(255)"/>            
@@ -35,10 +35,151 @@
             <column name="log_date" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="log_txt" type="VARCHAR(511)"/>
             <column name="log_type" type="VARCHAR(255)"/> 
+            <column name="tester_name" type="VARCHAR(255)"/>
+            <column name="operation_name" type="VARCHAR(255)"/>
+            <column name="class_name" type="VARCHAR(255)"/>
         </createTable>
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="logs"
             baseTableSchemaName="${db.rlogger.schema.name}" constraintName="logs_fk" deferrable="false" initiallyDeferred="false"
             onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="users"
             referencedTableSchemaName="${db.rlogger.schema.name}" referencesUniqueColumn="false"/> 
+    </changeSet>
+    <changeSet id="3" author="MM">
+        <insert schemaName="${db.rlogger.schema.name}" tableName="users">
+            <column name="user_name" value="testUser"/>
+            <column name="key" value=""/>
+            <column name="encrypt" valueBoolean="false"/>
+            <column name="user_data" value="Dane o użytkowniku systemu"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:20:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:21:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu2"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:22:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu3"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:23:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu3"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:24:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu4"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:25:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu5"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa2"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:26:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu6"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa2"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:27:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu7"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:28:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu8"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa2"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:29:01.867"/>
+            <column name="log_txt" value="LOG INFO Jakis tam kawalek logu9"/>
+            <column name="log_type" value="INFO"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:30:01.867"/>
+            <column name="log_txt" value="LOG ERROR Jakis tam kawalek logu"/>
+            <column name="log_type" value="ERROR"/>
+            <column name="tester_name" value="tester1"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa1"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:31:01.867"/>
+            <column name="log_txt" value="LOG ERROR Jakis tam kawalek logu1"/>
+            <column name="log_type" value="ERROR"/>
+            <column name="tester_name" value="tester2"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa2"/>
+        </insert>
+        <insert schemaName="${db.rlogger.schema.name}" tableName="logs">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="log_version" value="1.2"/>
+            <column name="log_date" valueDate="2014-12-31T23:31:01.867"/>
+            <column name="log_txt" value="LOG ERROR Jakis tam kawalek logu2"/>
+            <column name="log_type" value="ERROR"/>
+            <column name="tester_name" value="tester2"/>
+            <column name="operation_name" value="operation1"/>
+            <column name="class_name" value="Klasa2"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>

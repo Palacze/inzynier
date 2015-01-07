@@ -32,6 +32,9 @@ public class Logs implements Serializable{
     private Date logDate;
     private String logTxt;
     private LogType logType;
+    private String testerName;
+    private String operationName;
+    private String className;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +88,33 @@ public class Logs implements Serializable{
 
     public void setLogVersion(String logVersion) {
         this.logVersion = logVersion;
+    }
+
+    @Column(name = "tester_name", length = 255)
+    public String getTesterName() {
+        return testerName;
+    }
+
+    public void setTesterName(String testerName) {
+        this.testerName = testerName;
+    }
+
+    @Column(name = "operation_name", length = 255)
+    public String getOperationName() {
+        return operationName;
+    }
+
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+
+    @Column(name = "class_name", length = 255)
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
     
 }

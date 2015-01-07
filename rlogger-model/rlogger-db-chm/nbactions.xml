@@ -9,4 +9,13 @@
                 <goal>liquibase:update</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-Drop db</actionName>
+            <displayName>Drop db</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>liquibase:dropAll</goal>
+            </goals>
+        </action>
     </actions>

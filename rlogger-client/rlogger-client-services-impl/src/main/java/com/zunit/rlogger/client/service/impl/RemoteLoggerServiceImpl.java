@@ -1,9 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.zunit.rlogger.client.service.impl;
 
+import com.zunit.rlogger.client.dto.CheckProbabilityRequestDTO;
+import com.zunit.rlogger.client.dto.CheckProbabilityResponseDTO;
 import com.zunit.rlogger.client.dto.CreateNewUserRequestDto;
 import com.zunit.rlogger.client.dto.CreateNewUserResponseDto;
 import com.zunit.rlogger.client.dto.SendLogRequestDto;
@@ -14,6 +13,7 @@ import com.zunit.rlogger.model.Users;
 import com.zunit.rlogger.model.dao.LogsDAO;
 import com.zunit.rlogger.model.dao.UsersDao;
 import com.zunit.rlogger.utils.LogType;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -28,8 +28,8 @@ public class RemoteLoggerServiceImpl implements RemoteLoggerService{
     @EJB
     private UsersDao usersDao;
     @EJB
-    private LogsDAO logsDAO;
-
+    private LogsDAO logsDAO; 
+    
     @Override
     public CreateNewUserResponseDto createUser(CreateNewUserRequestDto newUserDto) {
         CreateNewUserResponseDto dto = new CreateNewUserResponseDto();
@@ -62,6 +62,31 @@ public class RemoteLoggerServiceImpl implements RemoteLoggerService{
         dto.setStatus("SUCCESS");
         
         return dto;
+    }
+
+    @Override
+    public CheckProbabilityResponseDTO checkProbability(CheckProbabilityRequestDTO request) {
+        long countOpTypes;
+        long countClassNames;
+        long countTestersNames;
+        
+        List<Logs> infoLogList;
+        List<Logs> warnLogList;
+        List<Logs> errLogList;
+        
+        CheckProbabilityResponseDTO response = new CheckProbabilityResponseDTO();
+        
+        List<Logs> logList = logsDAO.findByUser(request.getUserId());
+        
+        countOpTypes = logsDAO.countTypes(request.getUserId());
+        countClassNames = logsDAO.countClassName(request.getUserId());
+        countTestersNames = logsDAO.countTesters(request.getUserId());
+        
+        infoLogList = logsDAO.findByUserAndType(request.getUserId(), LogType.INFO.name());
+        errLogList = logsDAO.findByUserAndType(request.getUserId(), LogType.ERROR.name());
+        warnLogList = logsDAO.findByUserAndType(request.getUserId(), LogType.WARN.name());
+        
+        return response;
     }
     
 }
