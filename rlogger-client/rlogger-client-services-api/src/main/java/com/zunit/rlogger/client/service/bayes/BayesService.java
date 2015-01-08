@@ -11,7 +11,7 @@ import java.util.List;
  * jest wystąpienie błędu przy danych podanych przez klienta.
  */
 public interface BayesService {
-    List<Object> getListObjectsByClass(String klasa);
+    double countBayesResultForList(List list, String userId, String logType);
     
     
 }

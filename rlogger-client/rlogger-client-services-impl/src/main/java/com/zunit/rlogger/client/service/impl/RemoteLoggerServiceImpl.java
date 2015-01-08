@@ -8,6 +8,7 @@ import com.zunit.rlogger.client.dto.CreateNewUserResponseDto;
 import com.zunit.rlogger.client.dto.SendLogRequestDto;
 import com.zunit.rlogger.client.dto.SendLogResponseDto;
 import com.zunit.rlogger.client.service.RemoteLoggerService;
+import com.zunit.rlogger.client.service.bayes.BayesService;
 import com.zunit.rlogger.model.Logs;
 import com.zunit.rlogger.model.Users;
 import com.zunit.rlogger.model.dao.LogsDAO;
@@ -28,7 +29,9 @@ public class RemoteLoggerServiceImpl implements RemoteLoggerService{
     @EJB
     private UsersDao usersDao;
     @EJB
-    private LogsDAO logsDAO; 
+    private LogsDAO logsDAO;
+    @EJB
+    private BayesService bayesService;
     
     @Override
     public CreateNewUserResponseDto createUser(CreateNewUserRequestDto newUserDto) {
@@ -66,26 +69,21 @@ public class RemoteLoggerServiceImpl implements RemoteLoggerService{
 
     @Override
     public CheckProbabilityResponseDTO checkProbability(CheckProbabilityRequestDTO request) {
-        long countOpTypes;
-        long countClassNames;
-        long countTestersNames;
         
         List<Logs> infoLogList;
         List<Logs> warnLogList;
         List<Logs> errLogList;
         
-        CheckProbabilityResponseDTO response = new CheckProbabilityResponseDTO();
+        double errorProbability;
+        double warnProbability;
+        double infoProbability;
         
-        List<Logs> logList = logsDAO.findByUser(request.getUserId());
+        CheckProbabilityResponseDTO response = new CheckProbabilityResponseDTO();        
+        List<Logs> logList = logsDAO.findByUser(request.getUserId());  
         
-        countOpTypes = logsDAO.countTypes(request.getUserId());
-        countClassNames = logsDAO.countClassName(request.getUserId());
-        countTestersNames = logsDAO.countTesters(request.getUserId());
-        
-        infoLogList = logsDAO.findByUserAndType(request.getUserId(), LogType.INFO.name());
-        errLogList = logsDAO.findByUserAndType(request.getUserId(), LogType.ERROR.name());
-        warnLogList = logsDAO.findByUserAndType(request.getUserId(), LogType.WARN.name());
-        
+        errorProbability = bayesService.countBayesResultForList(logList, request.getUserId(), LogType.ERROR.name());
+        warnProbability = bayesService.countBayesResultForList(logList, request.getUserId(), LogType.ERROR.name());
+        infoProbability = bayesService.countBayesResultForList(logList, request.getUserId(), LogType.ERROR.name());
         return response;
     }
     

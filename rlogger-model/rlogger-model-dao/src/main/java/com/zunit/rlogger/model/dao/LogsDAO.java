@@ -50,4 +50,31 @@ public class LogsDAO extends BaseDAO<Logs, Long>{
         
         return list;
     }
+    
+    public Long countLogsByTypeAndLogVersion(String userId, String atribute, String logType){
+        Query q = getEntityManager().createQuery("SELECT COUNT(l) FROM l Logs WHERE l.userIdn = :userIdn AND l.logType = :logType AND l.operationName = :atribute")
+                .setParameter("userIdn", userId)
+                .setParameter("logType", logType)
+                .setParameter("atribute", atribute);
+        
+        return (Long) q.getSingleResult();
+    }
+    
+    public Long countLogsByTypeAndLogClass(String userId, String atribute, String logType){
+        Query q = getEntityManager().createQuery("SELECT COUNT(l) FROM l Logs WHERE l.userIdn = :userIdn AND l.logType = :logType AND l.className = :atribute")
+                .setParameter("userIdn", userId)
+                .setParameter("logType", logType)
+                .setParameter("atribute", atribute);
+        
+        return (Long) q.getSingleResult();
+    }
+    
+    public Long countLogsByTypeAndTesterName(String userId, String atribute, String logType){
+        Query q = getEntityManager().createQuery("SELECT COUNT(l) FROM l Logs WHERE l.userIdn = :userIdn AND l.logType = :logType AND l.testerName = :atribute")
+                .setParameter("userIdn", userId)
+                .setParameter("logType", logType)
+                .setParameter("atribute", atribute);
+        
+        return (Long) q.getSingleResult();
+    }
 }
